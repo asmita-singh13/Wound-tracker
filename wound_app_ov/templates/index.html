@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wound Detection</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* Inline styles for demonstration */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+            gap: 20px; /* Space between the columns */
+        }
+
+        .grid-item {
+            text-align: center; /* Center align text and images */
+        }
+
+        .grid-item img {
+            margin-top: 10px; /* Space between image and button */
+            max-width: 100%; /* Make sure images are responsive */
+        }
+    </style>
+</head>
+<body>
+    <h1>Wound Detection</h1>
+    <div class="grid-container">
+        <!-- First Column -->
+        <div class="grid-item">
+            <h3>Capture Image</h3>
+            <form action="/open_camera" method="get">
+                <button type="submit">Open Camera</button>
+            </form>
+            {% if image_name %}
+            <img src="/static/image/{{ image_name }}" alt="Captured Image" width="224">
+            {% endif %}
+        </div>
+
+        <!-- Second Column -->
+        <div class="grid-item">
+            <h3>Process Image</h3>
+            <form action="/process_image" method="get">
+                <input type="hidden" name="image_name" value="{{ image_name }}">
+                <button type="submit">Process Image</button>
+            </form>
+            {% if overlayed_name %}
+            <img src="/static/image/{{ overlayed_name }}" alt="Overlayed Image" width="224">
+            {% endif %}
+        </div>
+    </div>
+
+    {% if diagnosis %}
+    <div class="diagnosis-result">
+        <h3><span style="color:blue;">Diagnosis:</span> {{ diagnosis }}</h3>
+    </div>
+    {% endif %}
+
+</body>
+</html>
